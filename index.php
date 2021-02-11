@@ -44,12 +44,12 @@ $src_folder = 'C:\Users\WORK\Pictures\Screenshots'; # change to desired director
 </head>
 <body>
 
-<div class="jumbotron">
+<!---<div class="jumbotron">
   <div class="container text-center">
     <h1>ALGAMING</h1>      
     <p>Free for all , Promod </p>
   </div>
-</div>
+</div>--->
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
