@@ -17,7 +17,7 @@ $src_folder = 'C:\Users\WORK\Pictures\Screenshots'; # change to desired director
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Screenshots</title>
+  <title>Anime Lover Gaming | Screenshots</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -42,14 +42,7 @@ $src_folder = 'C:\Users\WORK\Pictures\Screenshots'; # change to desired director
     }
   </style>
 </head>
-<body>
-
-<!---<div class="jumbotron">
-  <div class="container text-center">
-    <h1>ALGAMING</h1>      
-    <p>Free for all , Promod </p>
-  </div>
-</div>--->
+<body style="background-color: #101820FF;">
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -59,18 +52,28 @@ $src_folder = 'C:\Users\WORK\Pictures\Screenshots'; # change to desired director
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="http://algaming.tk">ALGAMING.TK</a>
+      <a class="navbar-brand" href="http://www.algaming.tk">Anime Lover Gaming</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="http://algaming.tk">Home</a></li>
-        <li class="active"><a href="http://algaming.tk/screenshots">Screenshots</a></li>
-     <!--<li><a href="#">Deals</a></li>
-        <li><a href="#">Stores</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="http://www.algaming.tk">Home</a></li>
+        <li class="active"><a href="http://www.algaming.tk/screenshots">Screenshots</a></li>
+     	<li><a href="http://www.algaming.tk/statistics.php">Statistics</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#contactModal">Contact</a></li>
+	<!-- Modal -->
+      <div class="modal fade alert alert-info" id="contactModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content ">
+            <div class="modal-body">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div> <center>For any queries Contact<br><h2>[AL]Happy#9833</h2><br>At Discord</div>
+          </div>
+        </div>
+      </div>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
+        <!---<li><a href="#"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li> -->
       </ul>
     </div>
@@ -101,13 +104,35 @@ function scan_dir($dir) {
       return ($files) ? $files : false;
   }
 
-  $files = scan_dir($src_folder);
+if(isset($_GET['page'])){
+	$page = $_GET['page'];
+}else{
+	$page = 1;
+}
+
+$per_page = 9;
+
+$start_from = ($page - 1) * $per_page;
+$stop_at = $start_from + $per_page - 1;
+
+$files = scan_dir($src_folder);
+
+$total_files = $files;
+$tmp_files = array();
+
+for($j=$start_from;$j<=$stop_at;++$j){
+		if($j <= (count($files)-1) )
+			array_push($tmp_files, $files[$j]);
+	}
+
+  $files = $tmp_files;
+
   $x = 1;
   foreach($files as $file) { 
 	  echo	'<div class="col-sm-4">
 						<div class="panel panel-primary">
 						<div class="panel-heading">'. $file .'</div>
-						<div class="panel-body"><img src="file_viewer.php?file='. base64_encode($src_folder . "/" . $file). '" class="img-responsive" style="width:100%" alt="'. $file . '" data-toggle="modal" data-target="#'.$x.'myModal"></div>
+						<div class="panel-body"><img src="file_viewer.php?file='. base64_encode($src_folder . "/" . $file). '" class="img-responsive" style="width:100%; height: 250px;" alt="'. $file . '" data-toggle="modal" data-target="#'.$x.'myModal"></div>
 						<div class="panel-footer">'. $file . ' - ' . date ("F d Y H:i:s.", filemtime($src_folder.'/'.$file)) .'</div>
 						</div>
 					</div>';
@@ -133,9 +158,35 @@ function scan_dir($dir) {
 		$x += 1;
   }
 ?>
-
 </div>
 </div><br>
+
+<br>
+
+<div class="container"><center>
+<?php
+
+
+$total_pages = ceil(count($total_files) / $per_page);
+
+
+for($i=1;$i<=$total_pages;++$i){
+	if($i == 1){
+		echo '<ul class="pagination">';
+	}
+	if($page == $i){
+		echo '<li class="active"><a href=?page='.$i.'>'.$i.'</a></li>';
+	}else{
+		echo '<li><a href=?page='.$i.'>'.$i.'</a></li>';
+	}
+	if($i >= $total_pages){
+		echo "</ul>";
+	}
+}
+
+?>
+
+</center></div>
 
 <br>
 
